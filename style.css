@@ -1,0 +1,329 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    #30204d 0%,
+    #130d23 55%,
+    #050509 100%
+  );
+  color: #f5f0ff;
+  font-family: Georgia, serif;
+  overflow-x: hidden;
+}
+
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  color: #c4b5fd;
+  animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 35px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-stars {
+  color: #a78bfa;
+  letter-spacing: 8px;
+  font-size: 14px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+h1 {
+  color: #e9ddff;
+  font-size: 45px;
+  letter-spacing: 6px;
+  text-shadow: 0 0 18px #a78bfa;
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: #c7b6e8;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.intro {
+  margin-top: 30px;
+  color: #a99bc7;
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+}
+
+/* flower garden */
+
+.flower-garden {
+  width: min(500px, 95vw);
+  min-height: 340px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 25px;
+  padding: 35px 15px;
+}
+
+/* clickable flowers */
+
+.flower {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  transition: transform .3s ease, filter .3s ease;
+  animation: float 3s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flower:hover {
+  transform: scale(1.12);
+  filter: brightness(1.25);
+}
+
+.flower:active {
+  transform: scale(.9);
+}
+
+.flower:nth-child(2) { animation-delay: .5s; }
+.flower:nth-child(3) { animation-delay: 1s; }
+.flower:nth-child(4) { animation-delay: 1.5s; }
+.flower:nth-child(5) { animation-delay: 2s; }
+.flower:nth-child(6) { animation-delay: .8s; }
+.flower:nth-child(7) { animation-delay: 1.2s; }
+
+/* petals */
+
+.petals {
+  position: absolute;
+  inset: 0;
+}
+
+.petal {
+  position: absolute;
+  width: 30px;
+  height: 46px;
+  left: 35px;
+  top: 5px;
+  border-radius: 50% 50% 45% 45%;
+  transform-origin: 15px 43px;
+}
+
+/* blue */
+
+.blue .petal {
+  background: linear-gradient(145deg, #dbeafe, #60a5fa, #1e3a8a);
+  box-shadow: 0 0 12px #60a5fa66;
+}
+
+.blue .center {
+  background: #eff6ff;
+  box-shadow: 0 0 18px #93c5fd;
+}
+
+/* purple */
+
+.purple .petal {
+  background: linear-gradient(145deg, #f3e8ff, #c084fc, #6b21a8);
+  box-shadow: 0 0 12px #c084fc66;
+}
+
+.purple .center {
+  background: #faf5ff;
+  box-shadow: 0 0 18px #c084fc;
+}
+
+/* white */
+
+.white .petal {
+  background: linear-gradient(145deg, #ffffff, #e5e7eb, #a5b4fc);
+  box-shadow: 0 0 12px #ffffff66;
+}
+
+.white .center {
+  background: #fef3c7;
+  box-shadow: 0 0 18px #fde68a;
+}
+
+/* black */
+
+.black .petal {
+  background: linear-gradient(145deg, #aaa2bd, #393347, #08080c);
+  box-shadow: 0 0 12px #a78bfa44;
+}
+
+.black .center {
+  background: #c4b5fd;
+  box-shadow: 0 0 18px #8b5cf6;
+}
+
+/* flower center */
+
+.center {
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* message card */
+
+.message-card {
+  width: min(380px, 92vw);
+  max-height: 65vh;
+  overflow-y: auto;
+  border: 1px solid #79649f;
+  border-radius: 20px;
+  padding: 25px 22px;
+  background: rgba(19, 13, 34, .85);
+  box-shadow: 0 0 30px #8b5cf622;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: #79649f transparent;
+}
+
+#message {
+  color: #e9ddff;
+  font-size: 15px;
+  line-height: 1.9;
+  transition: .3s;
+  overflow-wrap: break-word;
+}
+
+.small-star {
+  color: #a78bfa;
+  font-size: 12px;
+}
+
+/* music button */
+
+#musicBtn {
+  margin-top: 25px;
+  padding: 14px 28px;
+  border-radius: 50px;
+  border: 1px solid #a78bfa;
+  background: rgba(35, 22, 56, .8);
+  color: #e9ddff;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 0 15px #8b5cf622;
+  transition: .3s ease;
+  cursor: pointer;
+}
+
+#musicBtn:hover {
+  background: #392552;
+  box-shadow: 0 0 20px #a78bfa66;
+  transform: translateY(-2px);
+}
+
+#musicBtn:active {
+  transform: scale(.95);
+}
+
+/* hint */
+
+.hint {
+  color: #a99bc7;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+/* footer */
+
+footer {
+  margin-top: 35px;
+  text-align: center;
+  color: #b9a9d8;
+  font-size: 12px;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+/* animations */
+
+@keyframes twinkle {
+  from {
+    opacity: .2;
+    transform: scale(.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+@keyframes bloom {
+  0% {
+    scale: .8;
+  }
+  100% {
+    scale: 1.15;
+  }
+}
+
+.flower.blooming {
+  animation: bloom .4s ease;
+}
+
+/* mobile */
+
+@media (max-width: 450px) {
+  .flower-garden {
+    gap: 12px;
+  }
+
+  .flower {
+    width: 90px;
+    height: 90px;
+  }
+
+  .petal {
+    left: 30px;
+  }
+
+  .center {
+    left: 31px;
+  }
+}
