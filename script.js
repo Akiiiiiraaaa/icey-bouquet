@@ -3,9 +3,9 @@ const garden = document.getElementById("garden");
 const message = document.getElementById("message");
 const dateTime = document.getElementById("datetime");
 const stars = document.getElementById("stars");
-
 const musicBtn = document.getElementById("musicBtn");
-const bgMusic = document.getElementById("bgMusic");
+
+const videoId = "ELNpujFifdw";
 
 const flowerData = [
   {
@@ -38,12 +38,14 @@ const flowerData = [
   }
 ];
 
-// create flowers
+// CREATE FLOWERS
 
 flowerData.forEach((data, index) => {
   const flower = document.createElement("div");
   flower.className = `flower ${data.color}`;
-  flower.setAttribute("title", `flower ${index + 1}`);
+  flower.setAttribute("role", "button");
+  flower.setAttribute("tabindex", "0");
+  flower.setAttribute("aria-label", `Open message ${index + 1}`);
 
   const petals = document.createElement("div");
   petals.className = "petals";
@@ -60,55 +62,97 @@ flowerData.forEach((data, index) => {
 
   flower.append(petals, center);
 
-  flower.addEventListener("click", () => {
+  function openMessage() {
     message.textContent = data.note;
+    flower.animate(
+      [
+        { transform: "scale(.9)" },
+        { transform: "scale(1.15)" },
+        { transform: "scale(1)" }
+      ],
+      { duration: 400 }
+    );
+  }
 
-    flower.classList.remove("blooming");
-    void flower.offsetWidth;
-    flower.classList.add("blooming");
+  flower.addEventListener("click", openMessage);
+  flower.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openMessage();
+    }
   });
 
   garden.appendChild(flower);
 });
 
-// background sparkles
+// SPARKLES
 
 for (let i = 0; i < 55; i++) {
   const star = document.createElement("span");
-
   star.className = "star";
   star.textContent = Math.random() > .5 ? "✦" : "✧";
   star.style.left = Math.random() * 100 + "vw";
   star.style.top = Math.random() * 100 + "vh";
   star.style.fontSize = Math.random() * 15 + 8 + "px";
   star.style.animationDelay = Math.random() * 3 + "s";
-
   stars.appendChild(star);
 }
 
-// music play / pause
+// YOUTUBE MUSIC
 
-musicBtn.addEventListener("click", async () => {
-  if (bgMusic.paused) {
-    try {
-      await bgMusic.play();
-      musicBtn.textContent = "♫ pause music ♡";
-    } catch (error) {
-      musicBtn.textContent = "♫ check your music URL ♡";
+let player;
+let musicPlaying = false;
+let playerReady = false;
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("youtubePlayer", {
+    height: "180",
+    width: "320",
+    videoId: videoId,
+    playerVars: {
+      autoplay: 0,
+      controls: 1,
+      playsinline: 1,
+      origin: window.location.origin
+    },
+    events: {
+      onReady: () => {
+        playerReady = true;
+      },
+      onStateChange: (event) => {
+        if (event.data === YT.PlayerState.PLAYING) {
+          musicPlaying = true;
+          musicBtn.textContent = "♫ pause music ♡";
+        } else if (
+          event.data === YT.PlayerState.PAUSED ||
+          event.data === YT.PlayerState.ENDED
+        ) {
+          musicPlaying = false;
+          musicBtn.textContent = "♫ music while reading ♡";
+        }
+      }
     }
+  });
+}
+
+const youtubeScript = document.createElement("script");
+youtubeScript.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(youtubeScript);
+
+musicBtn.addEventListener("click", () => {
+  if (!playerReady) {
+    musicBtn.textContent = "♫ loading music... ♡";
+    return;
+  }
+
+  if (musicPlaying) {
+    player.pauseVideo();
   } else {
-    bgMusic.pause();
-    musicBtn.textContent = "♫ music while reading ♡";
+    player.playVideo();
   }
 });
 
-// reset button when music ends
-
-bgMusic.addEventListener("ended", () => {
-  musicBtn.textContent = "♫ music while reading ♡";
-});
-
-// philippine date and time
+// PHILIPPINE DATE AND TIME
 
 function updateClock() {
   const now = new Date();
